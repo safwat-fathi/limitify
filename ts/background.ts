@@ -14,11 +14,17 @@ function getBlockPageUrl(siteName: string): string {
 }
 
 // Listener for tab updates
-chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+chrome.tabs.onUpdated.addListener(handleTabUpdate);
+
+async function handleTabUpdate(
+	tabId: number,
+	changeInfo: chrome.tabs.TabChangeInfo,
+	tab: chrome.tabs.Tab
+) {
 	if (changeInfo.status === "complete" && tab.url) {
 		try {
 			const url = new URL(tab.url);
-			const hostname = url.hostname; // e.g., "safwat-fathi.me"
+			const hostname = url.hostname;
 
 			const data = await chrome.storage.local.get("websites");
 			const websites: Website[] = data.websites || [];
@@ -27,10 +33,14 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 				return hostname === w.url || hostname.endsWith(`.${w.url}`);
 			});
 
-			if (site && site.timeUsed && site.timeUsed >= site.timeLimit) {
+			if (site) {
 				const now = Date.now();
 				site.lastVisit = site.lastVisit || now;
 				const elapsedMinutes = (now - site.lastVisit) / (1000 * 60);
+
+				if (site.timeUsed && site.timeUsed >= site.timeLimit) {
+					return;
+				}
 
 				if (elapsedMinutes >= 1) {
 					site.timeUsed = (site.timeUsed || 0) + Math.floor(elapsedMinutes);
@@ -38,8 +48,6 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 				}
 
 				if (site.timeUsed && site.timeUsed >= site.timeLimit) {
-					// const blockPageUrl = getBlockPageUrl();
-					// await chrome.tabs.update(tabId, { url: blockPageUrl });
 					const blockPageUrl = getBlockPageUrl(site.url); // Pass the site name as a query parameter
 					await chrome.tabs.update(tabId, { url: blockPageUrl });
 				}
@@ -51,4 +59,4 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 			console.error(error);
 		}
 	}
-});
+}
