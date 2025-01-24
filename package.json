@@ -1,0 +1,16 @@
+{
+	"name": "limitify",
+	"description": "Restrict access to websites after a daily timer expires",
+	"version": "0.0.0",
+	"scripts": {
+		"build": "tsc",
+		"watch": "tsc --watch"
+	},
+	"author": "Safwat Fathi",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/chrome": "^0.0.299",
+		"typescript": "^5.7.3"
+	},
+	"dependencies": {}
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/png" href="icon.png" />
+		<title>Access Blocked</title>
+		<style>
+			body {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+				background-color: #000;
+				color: white;
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+				text-align: center;
+				padding: 20px;
+			}
+
+			.container {
+				max-width: 500px;
+				display: flex;
+				flex-flow: column;
+				align-items: center;
+				justify-content: center;
+				gap: 1rem;
+			}
+
+			.img-wrapper {
+				width: 7rem;
+				border-radius: 15px;
+				overflow: hidden;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			img {
+				width: 100%;
+			}
+
+			h1,
+			p {
+				margin: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="img-wrapper">
+				<img src="icon.png" alt="Limitify Logo" />
+			</div>
+			<h1>Access Blocked</h1>
+			<p id="message">You have reached your time limit for this website.</p>
+		</div>
+		<script src="js/block.js"></script>
+	</body>
+</html>
