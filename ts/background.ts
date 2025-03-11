@@ -38,10 +38,6 @@ async function handleTabUpdate(
 				site.lastVisit = site.lastVisit || now;
 				const elapsedMinutes = (now - site.lastVisit) / (1000 * 60);
 
-				if (site.timeUsed && site.timeUsed >= site.timeLimit) {
-					return;
-				}
-
 				if (elapsedMinutes >= 1) {
 					site.timeUsed = (site.timeUsed || 0) + Math.floor(elapsedMinutes);
 					site.lastVisit = now;
